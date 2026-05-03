@@ -1,0 +1,314 @@
+<!doctype html>
+<!-- @author Jakub Bondel -->
+<html lang="pl" data-theme="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VisTrade — spokojny, nowoczesny dziennik tradera forex dla studentów. Loguj transakcje, analizuj wyniki, ucz się na własnych błędach.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#000000">
+  <title>VisTrade — Twój dziennik tradera forex</title>
+
+    <!-- Motyw ustawiamy od razu, żeby nie było przeskoku kolorów. -->
+    <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('vt-theme');
+        if (!t) {
+          var m = document.cookie.match(/(?:^|;\s*)vt-theme=([^;]+)/);
+          if (m) t = decodeURIComponent(m[1]);
+        }
+        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) t = 'light';
+        document.documentElement.dataset.theme = t === 'light' ? 'light' : '';
+      } catch (e) {}
+    })();
+  </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../css/tokeny.css">
+  <link rel="stylesheet" href="../css/baza.css">
+  <link rel="stylesheet" href="../css/komponenty.css">
+  <link rel="stylesheet" href="../css/strona-glowna.css?v=6">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/logo/znak-vistrade.svg">
+
+    <script type="module" src="../js/pages/strona-glowna.js"></script>
+</head>
+<body data-page="landing">
+    <a class="skip-link" href="#main-content">Przejdź do treści</a>
+
+    <!-- Tło strony startowej. Film jest tylko dekoracją. -->
+    <video class="lp-bg-video" autoplay muted loop playsinline aria-hidden="true"
+         poster="../assets/img/wykres-swiecowy.jpg">
+    <source src="../assets/video/tlo-startowe.mp4" type="video/mp4">
+  </video>
+    <div class="lp-bg-overlay" aria-hidden="true"></div>
+
+    <!-- Nawigacja strony startowej. -->
+    <header class="lp-nav" aria-label="Nawigacja">
+    <a class="lp-brand" href="strona-glowna.html" aria-label="VisTrade — strona główna">
+      <img src="../assets/logo/znak-vistrade.svg" alt="" width="32" height="32">
+      <span class="lp-brand-name">VisTrade</span>
+    </a>
+    <nav class="lp-nav-links" aria-label="Sekcje strony">
+      <a href="#funkcje">Funkcje</a>
+      <a href="#dla-kogo">Dla kogo</a>
+      <a href="#jak-dziala">Jak działa</a>
+      <a href="#cennik">Cennik</a>
+    </nav>
+    <div class="lp-nav-actions">
+      <button class="btn btn-icon" id="theme-toggle" type="button" aria-label="Przełącz motyw">
+        <i class="fa-solid fa-sun" aria-hidden="true"></i>
+      </button>
+      <a class="btn btn-primary" href="panel.html">
+        Otwórz panel <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </a>
+    </div>
+  </header>
+
+  <main id="main-content">
+        <!-- Pierwszy ekran z głównym opisem projektu. -->
+        <section class="lp-hero">
+      <div class="lp-hero-inner">
+        <span class="eyebrow">Dziennik tradera dla początkujących</span>
+        <h1 class="display lp-hero-headline">
+          Twój dziennik tradera.<br>
+          Ucz się na własnych transakcjach.
+        </h1>
+        <p class="lp-hero-sub">
+          Spokojny, nowoczesny dziennik forex zaprojektowany dla studentów,
+          którzy zaczynają swoją przygodę z handlem. Bez krzykliwych liczb,
+          bez obietnic szybkich zarobków — po prostu narzędzie, które
+          pomoże Ci zauważyć, co naprawdę działa.
+        </p>
+        <div class="lp-hero-cta">
+          <a class="btn btn-primary btn-lg" href="panel.html">
+            Wejdź do aplikacji <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+          <a class="btn btn-secondary btn-lg" href="#jak-dziala">Zobacz jak to działa</a>
+        </div>
+        <div class="lp-hero-meta">
+          <span><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Bez rejestracji</span>
+          <span><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Pełna polska wersja</span>
+          <span><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Twoje dane lokalnie</span>
+        </div>
+      </div>
+      <figure class="lp-hero-figure">
+        <img src="../assets/img/wykres-swiecowy.jpg"
+             alt="Wykres świecowy — przykład danych rynkowych"
+             loading="eager" decoding="async">
+      </figure>
+      <div class="lp-hero-glow" aria-hidden="true"></div>
+    </section>
+
+        <!-- Krótkie liczby opisujące aplikację. -->
+        <section class="lp-stats" aria-label="Liczby">
+      <article class="lp-stat">
+        <span class="num-lg">5</span>
+        <span class="caption">widoków w panelu</span>
+      </article>
+      <article class="lp-stat">
+        <span class="num-lg">7</span>
+        <span class="caption">wykresów Chart.js</span>
+      </article>
+      <article class="lp-stat">
+        <span class="num-lg">100%</span>
+        <span class="caption">po polsku, ton coachingowy</span>
+      </article>
+      <article class="lp-stat">
+        <span class="num-lg">0 zł</span>
+        <span class="caption">za zawsze</span>
+      </article>
+    </section>
+
+        <!-- Opis najważniejszych funkcji. -->
+        <section id="funkcje" class="lp-section">
+      <header class="lp-section-head">
+        <span class="eyebrow">Funkcje</span>
+        <h2>Wszystko, czego potrzebujesz w dzienniku</h2>
+        <p class="lp-section-sub">Bez bałaganu, bez rzeczy których nie używasz. Tylko to, co rzeczywiście pomaga się uczyć.</p>
+      </header>
+
+      <div class="lp-features-grid">
+        <article class="lp-feature">
+          <i class="fa-solid fa-circle-plus lp-feature-ic" aria-hidden="true"></i>
+          <h3>Szybkie dodawanie transakcji</h3>
+          <p>Formularz wieloetapowy z walidacją w czasie rzeczywistym. Wpisujesz parę, lot, ceny i notatkę — pip i P&amp;L liczone automatycznie.</p>
+        </article>
+        <article class="lp-feature">
+          <i class="fa-solid fa-chart-line lp-feature-ic" aria-hidden="true"></i>
+          <h3>Krzywa kapitału na bieżąco</h3>
+          <p>Zobacz jak Twój kapitał zmienia się w czasie. Wszystkie transakcje na jednym wykresie, plus rozkład R-multiple.</p>
+        </article>
+        <article class="lp-feature">
+          <i class="fa-solid fa-chart-pie lp-feature-ic" aria-hidden="true"></i>
+          <h3>Statystyki, które coś znaczą</h3>
+          <p>Win rate, średnie R:R, P&amp;L wg pary i dnia tygodnia, skuteczność tagów. Liczby, które pomogą Ci dostrzec wzorce.</p>
+        </article>
+        <article class="lp-feature">
+          <i class="fa-solid fa-calendar lp-feature-ic" aria-hidden="true"></i>
+          <h3>Kalendarz P&amp;L</h3>
+          <p>Każdy dzień jako kafelek — zielony lub czerwony zależnie od wyniku. Kliknij dzień i zobacz dokładnie, co się wtedy działo.</p>
+        </article>
+        <article class="lp-feature">
+          <i class="fa-solid fa-tag lp-feature-ic" aria-hidden="true"></i>
+          <h3>Tagi i notatki</h3>
+          <p>Oznaczaj setupy (breakout, pullback, news) i zostawiaj sobie notatki. Po jakimś czasie zobaczysz, co naprawdę działa.</p>
+        </article>
+        <article class="lp-feature">
+          <i class="fa-solid fa-moon lp-feature-ic" aria-hidden="true"></i>
+          <h3>Tryb ciemny i jasny</h3>
+          <p>Domyślnie ciemny — łagodniejszy dla oczu wieczorem. Light mode dostępny jednym kliknięciem, zapamiętany między sesjami.</p>
+        </article>
+      </div>
+    </section>
+
+        <!-- Sekcja wyjaśnia, dla kogo jest projekt. -->
+        <section id="dla-kogo" class="lp-section lp-section-alt">
+      <header class="lp-section-head">
+        <span class="eyebrow">Dla kogo</span>
+        <h2>VisTrade jest dla Ciebie, jeśli…</h2>
+      </header>
+
+      <div class="lp-audience-grid">
+        <article class="lp-audience-card">
+          <i class="fa-solid fa-graduation-cap lp-feature-ic" aria-hidden="true"></i>
+          <h3>Jesteś studentem</h3>
+          <p>Forex to nowy świat — masz pytania, robisz błędy. Potrzebujesz miejsca, w którym możesz się przyglądać własnym decyzjom bez presji.</p>
+        </article>
+        <article class="lp-audience-card">
+          <i class="fa-solid fa-seedling lp-feature-ic" aria-hidden="true"></i>
+          <h3>Zaczynasz</h3>
+          <p>Trzy, może pięć transakcji za sobą. Demo albo małe konto. Najważniejsze teraz to nie stracić motywacji i nauczyć się reflektować.</p>
+        </article>
+        <article class="lp-audience-card">
+          <i class="fa-solid fa-shield-halved lp-feature-ic" aria-hidden="true"></i>
+          <h3>Boisz się stracić pieniądze</h3>
+          <p>Słusznie. VisTrade nie obiecuje cudów — tylko narzędzia, które pomogą Ci podejmować bardziej świadome decyzje.</p>
+        </article>
+      </div>
+
+      <aside class="lp-not-for">
+        <p>
+          <strong>VisTrade nie jest dla Ciebie</strong>, jeśli szukasz sygnałów,
+          gotowych strategii, albo gwarantowanych zysków. Tu nie ma takich rzeczy
+          — i nigdy nie będzie.
+        </p>
+      </aside>
+    </section>
+
+        <!-- Prosty opis sposobu używania aplikacji. -->
+        <section id="jak-dziala" class="lp-section">
+      <header class="lp-section-head">
+        <span class="eyebrow">Jak działa</span>
+        <h2>Trzy kroki do lepszego handlu</h2>
+        <p class="lp-section-sub">Bez kont, bez haseł, bez maili. Otwierasz, używasz, uczysz się.</p>
+      </header>
+
+      <ol class="lp-steps">
+        <li class="lp-step">
+          <span class="lp-step-num num-lg">1</span>
+          <h3>Otwórz panel</h3>
+          <p>Jedno kliknięcie i jesteś w aplikacji. Wszystko działa od razu — przykładowe transakcje już są wczytane, możesz je usunąć i zacząć od zera.</p>
+        </li>
+        <li class="lp-step">
+          <span class="lp-step-num num-lg">2</span>
+          <h3>Loguj transakcje</h3>
+          <p>Po każdej transakcji wpisujesz parę, ceny, lot i krótką notatkę. Co poszło dobrze? Co byś zrobił inaczej? Kilka zdań wystarczy.</p>
+        </li>
+        <li class="lp-step">
+          <span class="lp-step-num num-lg">3</span>
+          <h3>Wracaj i analizuj</h3>
+          <p>Po tygodniu, miesiącu — patrz na statystyki. Które setupy działają? Kiedy najczęściej tracisz? Tu nie chodzi o ocenianie się, tylko o naukę.</p>
+        </li>
+      </ol>
+    </section>
+
+        <!-- Cennik jest częścią landing page. -->
+        <section id="cennik" class="lp-section lp-section-alt">
+      <header class="lp-section-head">
+        <span class="eyebrow">Cennik</span>
+        <h2>Zawsze za darmo</h2>
+        <p class="lp-section-sub">VisTrade powstał jako projekt akademicki. Nie ma planów premium, nie zbieramy danych, nie sprzedajemy reklam.</p>
+      </header>
+
+      <div class="lp-pricing">
+        <article class="lp-price-card">
+          <div class="lp-price-badge">Polecane</div>
+          <h3>Pełna wersja</h3>
+          <div class="lp-price">
+            <span class="num-xl">0</span>
+            <span class="lp-price-unit">zł / miesiąc</span>
+          </div>
+          <ul class="lp-price-list">
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Nieograniczona liczba transakcji</li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Wszystkie wykresy i statystyki</li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Tryb ciemny i jasny</li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Kalendarz P&amp;L i kursy walut na żywo</li>
+            <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i> Twoje dane zostają u Ciebie (localStorage)</li>
+          </ul>
+          <a class="btn btn-primary btn-lg" href="panel.html">
+            Zaczynam <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+        </article>
+      </div>
+    </section>
+
+        <!-- Ostatnie wezwanie do przejścia do panelu. -->
+        <section class="lp-final-cta">
+      <h2 class="display">Gotowy na pierwszą transakcję?</h2>
+      <p>Jeśli już handlujesz — zacznij prowadzić dziennik dziś. Jeśli jeszcze nie — zacznij od demo. W obu przypadkach VisTrade jest po to, żeby Ci pomóc się uczyć.</p>
+      <a class="btn btn-primary btn-lg" href="panel.html">
+        Otwórz panel <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+      </a>
+    </section>
+  </main>
+
+    <footer class="lp-foot">
+    <div class="lp-foot-cols">
+      <div>
+        <a class="lp-brand" href="strona-glowna.html" aria-label="VisTrade">
+          <img src="../assets/logo/znak-vistrade.svg" alt="" width="28" height="28">
+          <span class="lp-brand-name">VisTrade</span>
+        </a>
+        <p class="lp-foot-tagline">Twój dziennik tradera. Ucz się na własnych transakcjach.</p>
+      </div>
+      <div>
+        <span class="eyebrow">Aplikacja</span>
+        <ul>
+          <li><a href="panel.html">Panel</a></li>
+          <li><a href="transakcje.html">Transakcje</a></li>
+          <li><a href="dodaj.html">Dodaj transakcję</a></li>
+          <li><a href="statystyki.html">Statystyki</a></li>
+          <li><a href="kalendarz.html">Kalendarz</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="eyebrow">Strona</span>
+        <ul>
+          <li><a href="#funkcje">Funkcje</a></li>
+          <li><a href="#dla-kogo">Dla kogo</a></li>
+          <li><a href="#jak-dziala">Jak działa</a></li>
+          <li><a href="#cennik">Cennik</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="eyebrow">Projekt</span>
+        <p class="lp-foot-credit">
+          Projekt zaliczeniowy z przedmiotu <em>Wprowadzenie do Technologii Internetowych</em>, rok 2025/2026.
+        </p>
+        <p class="lp-foot-credit">
+          Zespół: Jakub Bondel · Mikolaj Dobrzynski · Kamil Piorkowski.
+        </p>
+      </div>
+    </div>
+    <div class="lp-foot-bottom">
+      <small>VisTrade — projekt akademicki, nie usługa finansowa. Handel forex wiąże się z ryzykiem utraty kapitału.</small>
+    </div>
+  </footer>
+</body>
+</html>

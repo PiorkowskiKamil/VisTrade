@@ -1,0 +1,11 @@
+.DS_Store
+.idea/
+.vscode/
+*.log
+node_modules/
+*.zip
+
+# Local OS / editor cruft
+Thumbs.db
+.swp
+*~

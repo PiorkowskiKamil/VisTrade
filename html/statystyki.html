@@ -1,0 +1,154 @@
+<!doctype html>
+<!-- @author Jakub Bondel -->
+<html lang="pl" data-theme="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Statystyki transakcji forex — P&L wg pary, dnia tygodnia i tagu.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#000000">
+  <title>Statystyki · VisTrade</title>
+
+    <!-- Ten skrypt wybiera motyw przed startem aplikacji. -->
+    <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('vt-theme');
+        if (!t) {
+          var m = document.cookie.match(/(?:^|;\s*)vt-theme=([^;]+)/);
+          if (m) t = decodeURIComponent(m[1]);
+        }
+        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) t = 'light';
+        document.documentElement.dataset.theme = t === 'light' ? 'light' : '';
+      } catch (e) {}
+    })();
+  </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../css/tokeny.css">
+  <link rel="stylesheet" href="../css/baza.css">
+  <link rel="stylesheet" href="../css/uklad.css">
+  <link rel="stylesheet" href="../css/komponenty.css">
+  <link rel="stylesheet" href="../css/strony.css">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/logo/znak-vistrade.svg">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+  <script type="module" src="../js/pages/statystyki.js"></script>
+</head>
+<body data-page="statystyki">
+    <a class="skip-link" href="#main-content">Przejdź do treści</a>
+    <div class="app">
+        <!-- Nawigacja po widokach aplikacji. -->
+        <aside class="sidebar" aria-label="Główna nawigacja">
+      <a class="brand" href="panel.html" aria-label="VisTrade — strona główna">
+        <img src="../assets/logo/znak-vistrade.svg" alt="" width="28" height="28">
+        <span class="brand-name">VisTrade</span>
+      </a>
+      <nav class="nav-group">
+        <span class="nav-eyebrow">Dziennik</span>
+        <a class="nav-item" data-page="dashboard"  href="panel.html"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+        <a class="nav-item" data-page="transakcje" href="transakcje.html"><i class="fa-solid fa-list"></i><span>Transakcje</span></a>
+        <a class="nav-item" data-page="dodaj"      href="dodaj.html"><i class="fa-solid fa-circle-plus"></i><span>Dodaj</span></a>
+        <a class="nav-item" data-page="statystyki" href="statystyki.html"><i class="fa-solid fa-chart-pie"></i><span>Statystyki</span></a>
+        <a class="nav-item" data-page="kalendarz"  href="kalendarz.html"><i class="fa-solid fa-calendar"></i><span>Kalendarz</span></a>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="user-chip">
+          <div class="avatar" aria-hidden="true">U</div>
+          <div>
+            <div class="name">Użytkownik</div>
+            <div class="sub">Konto demo</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+            <!-- Pasek z przełącznikiem motywu. -->
+            <header class="topbar">
+        <div class="greeting">Statystyki — <strong>pełen rozbiór</strong></div>
+        <div class="topbar-actions">
+          <button class="btn btn-icon" id="theme-toggle" type="button" aria-label="Przełącz motyw">
+            <i class="fa-solid fa-sun" aria-hidden="true"></i>
+          </button>
+        </div>
+      </header>
+
+            <!-- Widok statystyk z wykresami i tabelą tagów. -->
+            <main class="page" id="main-content">
+        <section class="page-head">
+          <div>
+            <h1>Statystyki</h1>
+            <div class="sub">Co działa, a co Cię kosztuje. Im więcej transakcji, tym dokładniejszy obraz.</div>
+          </div>
+        </section>
+
+                <!-- Karty z podsumowaniem całego dziennika. -->
+                <section class="stat-grid">
+          <article class="stat-hero">
+            <span class="lbl">P&amp;L łącznie</span>
+            <span class="val" id="kpi-total">—</span>
+            <span class="delta">Wszystkie transakcje w dzienniku</span>
+          </article>
+          <article class="stat">
+            <span class="lbl">Liczba transakcji</span>
+            <span class="val" id="kpi-trades">—</span>
+            <span class="delta">w bazie</span>
+          </article>
+          <article class="stat">
+            <span class="lbl">Win rate</span>
+            <span class="val" id="kpi-winrate">—</span>
+            <span class="delta">stosunek zwycięskich</span>
+          </article>
+        </section>
+
+                <!-- Wykresy liczone na podstawie zapisanych transakcji. -->
+                <section class="an-grid" aria-label="Wykresy analityczne">
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">P&amp;L wg pary walutowej</div>
+                <div class="card-sub">Posortowane od najlepszej</div>
+              </div>
+            </div>
+            <div class="chart-wrap"><canvas id="chart-by-pair" aria-label="Wykres P&L wg pary"></canvas></div>
+          </article>
+          <article class="card">
+            <div class="card-head">
+              <div>
+                <div class="card-title">P&amp;L wg dnia tygodnia</div>
+                <div class="card-sub">Tylko dni handlowe</div>
+              </div>
+            </div>
+            <div class="chart-wrap"><canvas id="chart-by-dow" aria-label="Wykres P&L wg dnia tygodnia"></canvas></div>
+          </article>
+        </section>
+
+                <!-- Tabela pokazuje, które tagi dawały najlepszy wynik. -->
+                <section class="card gap-32">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Skuteczność wg tagu</div>
+              <div class="card-sub">Które setupy działają, a które kosztują</div>
+            </div>
+          </div>
+          <div class="bar-list" id="tag-bars"></div>
+          <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line-1); color: var(--fg-2); font-size: 13px; line-height: 1.6;">
+            <strong style="color: var(--fg-1);">Wskazówka:</strong>
+            jeśli któryś tag systematycznie kosztuje — przyjrzyj mu się. To Twój własny sygnał ostrzegawczy.
+          </div>
+        </section>
+      </main>
+
+            <footer class="app-foot">
+        VisTrade · projekt zaliczeniowy WTI 2025/2026 · Jakub Bondel · Mikolaj Dobrzynski · Kamil Piorkowski
+      </footer>
+    </div>
+  </div>
+</body>
+</html>

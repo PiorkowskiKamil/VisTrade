@@ -1,0 +1,154 @@
+<!doctype html>
+<!-- @author Jakub Bondel -->
+<html lang="pl" data-theme="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Lista wszystkich Twoich transakcji forex. Filtruj, sortuj, szukaj.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#000000">
+  <title>Transakcje · VisTrade</title>
+
+    <!-- Motyw jest ustawiany szybko, zanim pokaże się cała strona. -->
+    <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('vt-theme');
+        if (!t) {
+          var m = document.cookie.match(/(?:^|;\s*)vt-theme=([^;]+)/);
+          if (m) t = decodeURIComponent(m[1]);
+        }
+        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) t = 'light';
+        document.documentElement.dataset.theme = t === 'light' ? 'light' : '';
+      } catch (e) {}
+    })();
+  </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../css/tokeny.css">
+  <link rel="stylesheet" href="../css/baza.css">
+  <link rel="stylesheet" href="../css/uklad.css">
+  <link rel="stylesheet" href="../css/komponenty.css">
+  <link rel="stylesheet" href="../css/strony.css">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/logo/znak-vistrade.svg">
+
+    <script type="module" src="../js/pages/transakcje.js"></script>
+</head>
+<body data-page="transakcje">
+    <a class="skip-link" href="#main-content">Przejdź do treści</a>
+    <div class="app">
+        <!-- Menu prowadzi do wszystkich głównych widoków. -->
+        <aside class="sidebar" aria-label="Główna nawigacja">
+      <a class="brand" href="panel.html" aria-label="VisTrade — strona główna">
+        <img src="../assets/logo/znak-vistrade.svg" alt="" width="28" height="28">
+        <span class="brand-name">VisTrade</span>
+      </a>
+      <nav class="nav-group">
+        <span class="nav-eyebrow">Dziennik</span>
+        <a class="nav-item" data-page="dashboard"  href="panel.html"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+        <a class="nav-item" data-page="transakcje" href="transakcje.html"><i class="fa-solid fa-list"></i><span>Transakcje</span></a>
+        <a class="nav-item" data-page="dodaj"      href="dodaj.html"><i class="fa-solid fa-circle-plus"></i><span>Dodaj</span></a>
+        <a class="nav-item" data-page="statystyki" href="statystyki.html"><i class="fa-solid fa-chart-pie"></i><span>Statystyki</span></a>
+        <a class="nav-item" data-page="kalendarz"  href="kalendarz.html"><i class="fa-solid fa-calendar"></i><span>Kalendarz</span></a>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="user-chip">
+          <div class="avatar" aria-hidden="true">U</div>
+          <div>
+            <div class="name">Użytkownik</div>
+            <div class="sub">Konto demo</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+            <!-- Akcje dla listy transakcji. -->
+            <header class="topbar">
+        <div class="greeting">Lista transakcji — <strong id="count">—</strong></div>
+        <div class="topbar-actions">
+          <button class="btn btn-icon" id="theme-toggle" type="button" aria-label="Przełącz motyw">
+            <i class="fa-solid fa-sun" aria-hidden="true"></i>
+          </button>
+          <a class="btn btn-primary" href="dodaj.html">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> Dodaj transakcję
+          </a>
+        </div>
+      </header>
+
+            <!-- Lista transakcji razem z filtrowaniem. -->
+            <main class="page" id="main-content">
+        <section class="page-head">
+          <div>
+            <h1>Wszystkie transakcje</h1>
+            <div class="sub">Filtruj, sortuj i szukaj w swoim dzienniku.</div>
+          </div>
+        </section>
+
+                <!-- Filtry zawężają listę bez przeładowania strony. -->
+                <section class="filter-row" role="search" aria-label="Filtry transakcji">
+          <div class="search">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <input id="search" type="text" placeholder="Szukaj po parze, tagu lub notatce…" aria-label="Szukaj transakcji">
+          </div>
+
+          <span class="filter-label">Kierunek</span>
+          <button class="filter-chip active" type="button" data-group="dir" data-value="all">Wszystkie</button>
+          <button class="filter-chip"        type="button" data-group="dir" data-value="long">Long</button>
+          <button class="filter-chip"        type="button" data-group="dir" data-value="short">Short</button>
+
+          <span class="filter-label">Wynik</span>
+          <button class="filter-chip active" type="button" data-group="outcome" data-value="all">Wszystkie</button>
+          <button class="filter-chip"        type="button" data-group="outcome" data-value="win">Wygrane</button>
+          <button class="filter-chip"        type="button" data-group="outcome" data-value="loss">Stratne</button>
+        </section>
+
+                <!-- Sortowanie i czyszczenie danych. -->
+                <section class="filter-row" aria-label="Sortowanie">
+          <label for="sort" class="filter-label" style="margin-left: 0;">Sortuj</label>
+          <select id="sort" class="select" style="height: 36px; max-width: 240px;">
+            <option value="date:desc">Data — od najnowszych</option>
+            <option value="date:asc">Data — od najstarszych</option>
+            <option value="pnl:desc">P&amp;L — największy zysk</option>
+            <option value="pnl:asc">P&amp;L — największa strata</option>
+            <option value="rr:desc">R-multiple — malejąco</option>
+            <option value="pair:asc">Para walutowa A→Z</option>
+          </select>
+
+          <label for="page-size" class="filter-label">Na stronę</label>
+          <select id="page-size" class="select" style="height: 36px; max-width: 90px;">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+          </select>
+        </section>
+
+                <!-- Wiersze tabeli są renderowane z JavaScriptu. -->
+                <section class="card flush" aria-label="Tabela transakcji">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th><th>Kierunek</th><th>Para</th><th>Wejście</th><th>Wyjście</th>
+                <th>Lot</th><th>P&amp;L</th><th class="col-rr">R</th>
+                <th class="col-tags">Tagi</th><th>Data</th>
+              </tr>
+            </thead>
+            <tbody id="trades-tbody"></tbody>
+          </table>
+          <div class="pager" id="pager" role="navigation" aria-label="Paginacja"></div>
+        </section>
+      </main>
+
+            <footer class="app-foot">
+        VisTrade · projekt zaliczeniowy WTI 2025/2026 · Jakub Bondel · Mikolaj Dobrzynski · Kamil Piorkowski
+      </footer>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!doctype html>
+<!-- @author Jakub Bondel -->
+<html lang="pl" data-theme="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dodaj nową transakcję forex do swojego dziennika VisTrade.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#000000">
+  <title>Dodaj transakcję · VisTrade</title>
+
+    <!-- Motyw ustawiamy przed wczytaniem CSS. -->
+    <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('vt-theme');
+        if (!t) {
+          var m = document.cookie.match(/(?:^|;\s*)vt-theme=([^;]+)/);
+          if (m) t = decodeURIComponent(m[1]);
+        }
+        if (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) t = 'light';
+        document.documentElement.dataset.theme = t === 'light' ? 'light' : '';
+      } catch (e) {}
+    })();
+  </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="../css/tokeny.css">
+  <link rel="stylesheet" href="../css/baza.css">
+  <link rel="stylesheet" href="../css/uklad.css">
+  <link rel="stylesheet" href="../css/komponenty.css">
+  <link rel="stylesheet" href="../css/strony.css">
+
+  <link rel="icon" type="image/svg+xml" href="../assets/logo/znak-vistrade.svg">
+
+    <script type="module" src="../js/pages/dodaj.js"></script>
+</head>
+<body data-page="dodaj">
+    <a class="skip-link" href="#main-content">Przejdź do treści</a>
+    <div class="app">
+        <!-- Stałe menu boczne aplikacji. -->
+        <aside class="sidebar" aria-label="Główna nawigacja">
+      <a class="brand" href="panel.html" aria-label="VisTrade — strona główna">
+        <img src="../assets/logo/znak-vistrade.svg" alt="" width="28" height="28">
+        <span class="brand-name">VisTrade</span>
+      </a>
+      <nav class="nav-group">
+        <span class="nav-eyebrow">Dziennik</span>
+        <a class="nav-item" data-page="dashboard"  href="panel.html"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+        <a class="nav-item" data-page="transakcje" href="transakcje.html"><i class="fa-solid fa-list"></i><span>Transakcje</span></a>
+        <a class="nav-item" data-page="dodaj"      href="dodaj.html"><i class="fa-solid fa-circle-plus"></i><span>Dodaj</span></a>
+        <a class="nav-item" data-page="statystyki" href="statystyki.html"><i class="fa-solid fa-chart-pie"></i><span>Statystyki</span></a>
+        <a class="nav-item" data-page="kalendarz"  href="kalendarz.html"><i class="fa-solid fa-calendar"></i><span>Kalendarz</span></a>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="user-chip">
+          <div class="avatar" aria-hidden="true">U</div>
+          <div>
+            <div class="name">Użytkownik</div>
+            <div class="sub">Konto demo</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+            <!-- Pasek z przyciskiem anulowania formularza. -->
+            <header class="topbar">
+        <div class="greeting"><strong>Dodaj transakcję</strong></div>
+        <div class="topbar-actions">
+          <button class="btn btn-icon" id="theme-toggle" type="button" aria-label="Przełącz motyw">
+            <i class="fa-solid fa-sun" aria-hidden="true"></i>
+          </button>
+          <a class="btn btn-secondary" href="transakcje.html">Anuluj</a>
+        </div>
+      </header>
+
+            <!-- Formularz dodawania lub edycji transakcji. -->
+            <main class="page" id="main-content">
+        <section class="page-head">
+          <div>
+            <h1>Dodaj transakcję</h1>
+            <div class="sub">Wypełnij krok po kroku. Większość pól ma podpowiedzi.</div>
+          </div>
+        </section>
+
+                <!-- Wizard dzieli formularz na kilka prostszych kroków. -->
+                <form id="trade-form" class="card wizard" novalidate>
+                    <ol class="wizard-steps" aria-label="Kroki formularza">
+            <li class="wizard-step active"><span class="num">1</span><span class="lbl">Kierunek</span></li>
+            <li class="wizard-step"><span class="num">2</span><span class="lbl">Para i pozycja</span></li>
+            <li class="wizard-step"><span class="num">3</span><span class="lbl">Ceny</span></li>
+            <li class="wizard-step"><span class="num">4</span><span class="lbl">Notatka i podsumowanie</span></li>
+          </ol>
+
+                    <!-- Krok 1: kierunek pozycji. -->
+                    <fieldset class="wizard-pane active">
+            <legend class="sr-only">Kierunek transakcji</legend>
+            <div class="field" data-field="dir">
+              <label>Wybierz kierunek</label>
+              <div class="dir-toggle" role="radiogroup" aria-label="Kierunek transakcji">
+                <button type="button" data-dir="long"  role="radio" aria-checked="false">Long (kupno)</button>
+                <button type="button" data-dir="short" role="radio" aria-checked="false">Short (sprzedaż)</button>
+              </div>
+              <span class="help">Long — zarabiasz, gdy cena rośnie. Short — gdy spada.</span>
+              <span class="field-error" role="alert"></span>
+            </div>
+          </fieldset>
+
+                    <!-- Krok 2: para walutowa i wielkość pozycji. -->
+                    <fieldset class="wizard-pane">
+            <legend class="sr-only">Para walutowa i pozycja</legend>
+            <div class="field-row">
+              <div class="field" data-field="pair">
+                <label for="f-pair">Para walutowa</label>
+                <select id="f-pair" class="select" required>
+                  <option value="">— wybierz —</option>
+                </select>
+                <span class="field-error" role="alert"></span>
+              </div>
+              <div class="field" data-field="lot">
+                <label for="f-lot">Wielkość pozycji <span class="info-icon" title="Lot — 0,01 to mikrolot, 0,10 to minilot, 1,00 to standardowy lot.">?</span></label>
+                <input id="f-lot" class="input is-num" type="text" inputmode="decimal" value="0,10" required>
+                <span class="help">0,01 = mikrolot · 0,10 = minilot · 1,00 = lot</span>
+                <span class="field-error" role="alert"></span>
+              </div>
+            </div>
+          </fieldset>
+
+                    <!-- Krok 3: ceny potrzebne do policzenia wyniku. -->
+                    <fieldset class="wizard-pane">
+            <legend class="sr-only">Ceny wejścia, wyjścia, SL, TP</legend>
+            <div class="field-row">
+              <div class="field" data-field="entry">
+                <label for="f-entry">Cena wejścia</label>
+                <input id="f-entry" class="input is-num" type="text" inputmode="decimal" placeholder="1,0825" required>
+                <span class="field-error" role="alert"></span>
+              </div>
+              <div class="field" data-field="exit">
+                <label for="f-exit">Cena wyjścia</label>
+                <input id="f-exit" class="input is-num" type="text" inputmode="decimal" placeholder="1,0871" required>
+                <span class="field-error" role="alert"></span>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field" data-field="sl">
+                <label for="f-sl">Stop loss <span class="help">(opcjonalne)</span></label>
+                <input id="f-sl" class="input is-num" type="text" inputmode="decimal" placeholder="1,0790">
+                <span class="field-error" role="alert"></span>
+              </div>
+              <div class="field" data-field="tp">
+                <label for="f-tp">Take profit <span class="help">(opcjonalne)</span></label>
+                <input id="f-tp" class="input is-num" type="text" inputmode="decimal" placeholder="1,0900">
+                <span class="field-error" role="alert"></span>
+              </div>
+            </div>
+          </fieldset>
+
+                    <!-- Krok 4: opis transakcji i podsumowanie. -->
+                    <fieldset class="wizard-pane">
+            <legend class="sr-only">Notatka i podsumowanie</legend>
+            <div class="field-row">
+              <div class="field" data-field="date">
+                <label for="f-date">Data i godzina</label>
+                <input id="f-date" class="input" type="datetime-local" required>
+                <span class="field-error" role="alert"></span>
+              </div>
+              <div class="field" data-field="tags">
+                <label for="f-tags">Tagi (oddziel przecinkami)</label>
+                <input id="f-tags" class="input" type="text" list="tag-suggestions" placeholder="np. breakout, news">
+                <datalist id="tag-suggestions"></datalist>
+                <span class="help">Tagi pomagają znaleźć podobne transakcje później.</span>
+                <span class="field-error" role="alert"></span>
+              </div>
+            </div>
+            <div class="field" data-field="note">
+              <label for="f-note">Notatka — co się wydarzyło?</label>
+              <textarea id="f-note" class="textarea" placeholder="Co poszło dobrze? Co byś zrobił inaczej? Krótko, własnymi słowami."></textarea>
+              <span class="help">Notatki pomagają zauważyć powtarzające się błędy. Nawet 2 zdania robią różnicę.</span>
+              <span class="field-error" role="alert"></span>
+            </div>
+
+            <div class="card" style="background: var(--bg-3);">
+              <div class="card-head"><div class="card-title">Podsumowanie</div></div>
+              <dl class="summary-list" id="summary"></dl>
+            </div>
+          </fieldset>
+
+                    <div class="wizard-foot">
+            <button id="btn-prev" type="button" class="btn btn-secondary">
+              <i class="fa-solid fa-chevron-left"></i> Wstecz
+            </button>
+            <button id="btn-next" type="button" class="btn btn-primary">
+              Dalej <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </form>
+      </main>
+
+            <footer class="app-foot">
+        VisTrade · projekt zaliczeniowy WTI 2025/2026 · Jakub Bondel · Mikolaj Dobrzynski · Kamil Piorkowski
+      </footer>
+    </div>
+  </div>
+</body>
+</html>

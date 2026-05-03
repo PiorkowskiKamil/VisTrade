@@ -1,0 +1,181 @@
+/* @author Mikolaj Dobrzynski */
+/* VisTrade - szkielet layoutu */
+
+.app {
+  /* Dwie kolumny: menu po lewej i treść po prawej. */
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  /* Sticky trzyma menu w miejscu podczas przewijania. */
+  background: var(--bg-1);
+  border-right: 1px solid var(--line-1);
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+
+  top: 0;
+  height: 100vh;
+}
+.brand { display: flex; align-items: center; gap: 10px; padding: 6px 8px; }
+.brand img { width: 28px; height: 28px; }
+.brand-name {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--fg-1);
+}
+
+.nav-group { display: flex; flex-direction: column; gap: 2px; }
+.nav-eyebrow {
+  font-size: 10px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--fg-3);
+  font-weight: var(--fw-medium);
+  padding: 6px 10px 4px;
+}
+.nav-item {
+  /* Jeden styl dla wszystkich linków w menu. */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--r-md);
+  color: var(--fg-2);
+  font-size: 14px;
+  font-weight: var(--fw-medium);
+  text-align: left;
+
+  transition: background var(--dur-fast) var(--ease-out),
+              color var(--dur-fast);
+}
+.nav-item i, .nav-item .fa-solid, .nav-item .fa-regular {
+  width: 18px; height: 18px;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 16px;
+}
+.nav-item:hover { background: var(--bg-3); color: var(--fg-1); }
+.nav-item.active { background: var(--brand-100); color: var(--fg-1); }
+[data-theme="light"] .nav-item.active { background: var(--brand-100); color: var(--brand-700); }
+
+.sidebar-foot { margin-top: auto; padding: 8px; }
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: var(--r-md);
+}
+.avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--brand-500);
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: var(--fw-semibold);
+  font-size: 13px;
+}
+.user-chip .name { font-size: 13px; font-weight: var(--fw-medium); color: var(--fg-1); }
+.user-chip .sub  { font-size: 11px; color: var(--fg-3); }
+
+/* ---------- Główna kolumna ---------- */
+.main { display: flex; flex-direction: column; min-width: 0; }
+
+/* ---------- Topbar ---------- */
+.topbar {
+  /* Topbar zostaje na górze, gdy przewijamy stronę. */
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  border-bottom: 1px solid var(--line-1);
+  background: var(--bg-0);
+  position: sticky;
+
+  top: 0;
+  z-index: 10;
+}
+.topbar.is-scrolled { box-shadow: var(--shadow-sm); }
+.greeting { font-size: 14px; color: var(--fg-2); }
+.greeting strong { color: var(--fg-1); font-weight: var(--fw-semibold); }
+.topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+/* ---------- Treść strony ---------- */
+.page {
+  padding: 28px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.page-head h1 { font-family: var(--font-sans); font-size: var(--fs-h1); }
+.page-head .sub { color: var(--fg-3); font-size: 13px; margin-top: 4px; }
+
+.gap-32 { margin-top: 32px; }
+
+/* ---------- Stopka ---------- */
+.app-foot {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--fg-3);
+  font-size: var(--fs-caption);
+  border-top: 1px solid var(--line-1);
+  margin-top: 32px;
+}
+
+/* ---------- Responsywność ---------- */
+@media (max-width: 1024px) {
+  .page { padding: 24px; }
+}
+
+@media (max-width: 768px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar {
+    /* Na telefonie sidebar zmienia się w dolną belkę. */
+    position: fixed;
+    bottom: 0; top: auto; left: 0; right: 0;
+    height: auto;
+    flex-direction: row;
+    gap: 0;
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--line-1);
+    border-right: 0;
+    z-index: 20;
+    background: var(--bg-1);
+  }
+
+  .brand,
+  .nav-eyebrow,
+  .nav-item span,
+  .sidebar-foot { display: none; }
+  .nav-group { display: contents; }
+  .nav-item {
+    flex: 1;
+    justify-content: center;
+    padding: 10px;
+  }
+  .page { padding: 20px 16px 100px; }
+  .topbar { padding: 0 16px; }
+}
+
+@media (max-width: 540px) {
+  .page-head { gap: 12px; }
+  .page-head h1 { font-size: 24px; }
+  .topbar { height: 52px; }
+}
